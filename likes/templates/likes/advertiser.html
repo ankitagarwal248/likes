@@ -1,0 +1,131 @@
+{% extends "likes/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Likes- Advertiser
+{% endblock %}
+
+{% block headingtitle %}
+Advertiser
+{% endblock %}
+
+{% block bodycontent %}
+	
+<div class="container">
+	</br>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Date/Time</th>
+				<th>Keywords</th>
+				<th>Bid</th>
+				<th>Buget</th>
+				<th>Spent</th>
+				<th>Status</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% if campaigns %}
+				{% for campaign in campaigns %}
+					<tr>
+						<td>{{ campaign.title }}<p style="font-size:90%;color:#aaa">{{ campaign.link | truncatechars:60}}</p></td>
+						<td>{{ campaign.time }}</td>
+						<td>{{ campaign.keywords }}</td>
+						<td>{{ campaign.bid }}</td>
+						<td>{{ campaign.budget }}</td>
+						<td>{{ campaign.budget }}</td>
+						<td>{% if campaign.status == 0 %}Not Running{% else %} Running{% endif %}</td>
+						<td>
+							<p>
+								{% if campaign.status == 0 %}
+									<a class="btn btn-primary" href="/advertiser/activate_campaign/{{ campaign.id }}/">Activate</a>
+								{% else %}
+									<a class="btn btn-primary" href="/advertiser/deactivate_campaign/{{ campaign.id }}/">Deactivate</a>
+								{% endif %}
+									<a class="btn btn-primary" href="/advertiser/delete_campaign/{{ campaign.id }}/">Delete</a>
+							</p>
+						</td>
+					</tr>	
+				{% endfor %}
+			{% endif %}
+		</tbody>
+	</table>
+</div>	
+
+
+
+
+
+
+
+<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+	<div class="panel-group" id="accordion">
+	  <div class="panel panel-default">
+	    <div class="panel-heading">
+	      <h4 class="panel-title">
+	        <a data-toggle="collapse" data-parent="#accordion" href="#collapseform">
+	          Create a new campaign
+	        </a>
+	      </h4>
+	    </div>
+	    <div id="collapseform" class="panel-collapse collapse">
+	      <div class="panel-body">
+			<form id="campaign_form" method="post" action="/advertiser/create_campaign/" class="form-horizontal" role="form">
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="campaignformlink" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Link</label>
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+						<input type="text" class="form-control" id="campaignformlink" placeholder="Enter the Link" name="link"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="campaignformtitle" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Ad Title</label>
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+						<input type="text" class="form-control" id="campaignformtitle" placeholder="Type Ad Title" name="title"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="campaignformdescription" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Ad Description</label>
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+						<input type="text" class="form-control" id="campaignformdescription" placeholder="Type Ad Description" name="description"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="campaignformkeywords" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Ad Keywords</label>
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+						<input type="text" class="form-control" id="campaignformkeywords" placeholder="Type Ad Keywords" name="keywords"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="campaignformbid" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Ad Bid</label>
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+						<input type="number" class="form-control" id="campaignformbid" placeholder="Type Ad Bid" name="bid"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="campaignformbudget" class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Ad Budget</label>
+					<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+						<input type="number" class="form-control" id="campaignformbudget" placeholder="Type Ad Budget" name="budget"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-xs-10 col-sm-10 col-md-10 col-lg-10">
+				    	<button type="submit" class="btn btn-default" value="submit">Create</button>
+				    </div>
+				</div>
+			</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>  	
+</div>
+
+{% endblock bodycontent %}

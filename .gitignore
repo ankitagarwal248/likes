@@ -1,0 +1,5 @@
+*.pyc
+*.dex
+*.class
+*.jar
+db.sqlite*

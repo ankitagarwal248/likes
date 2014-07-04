@@ -1,0 +1,50 @@
+{% extends "likes/base.html" %}
+{% load staticfiles %}
+
+
+{% block title %}
+Likes - Login
+{% endblock %}
+
+{% block headingtitle %}
+Login
+{% endblock %}
+
+
+{% block bodycontent %}
+	<h1 class="text-center">Login to Likes</h1>
+		{% if messages %}
+			<div class="alert alert-warning text-center" role="alert">
+				    {% for message in messages %}
+				    {{ message }}<br/>
+				    {% endfor %}
+				</ul>
+			</div>
+		{% endif %}			
+
+	<form class="form-horizontal" id="login_form" method="post" action="/login/">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6 well">
+				<div class="form-group">
+				<label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Username:</label>
+				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+					<input class="form-control" type="text" name="username" value="" size="50" />
+				</div>
+				</div>
+			
+				<div class="form-group">
+		                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Password:</label>
+		                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+        		                <input class="form-control" type="password" name="password" value="" size="50" />
+	                	</div>
+				</div>
+				
+				<div class="form-group">
+				<div class="col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                    <button type="submit" class="btn btn-success" value="submit"/>Login</button>
+                </div>
+			</div>
+		</div>
+	</form>
+{% endblock bodycontent %}

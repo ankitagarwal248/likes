@@ -1,0 +1,58 @@
+
+{% extends "likes/base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block title %}
+Likes - Register
+{% endblock %}
+
+{% block headingtitle %}
+Register
+{% endblock %}
+
+{% block bodycontent %}
+
+        <h1 class="text-center">Register with Likes</h1>
+        <form class="form-horizontal" id="user_form" method="post" action="/register/" role="form">
+            {% csrf_token %}
+            <div class="row">
+
+            	{{ user_form.non_field_errors }}
+
+                <div class="col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6 well">
+                	<div class="form-group">
+                		<label for="regusername" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">User Name</label>
+                		<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                			{{ user_form.username.errors }}
+                			{{ user_form.username|add_class:"form-control" }}
+                		</div>
+                	</div>
+
+                	<div class="form-group">
+                		<label for="regemail" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">Email</label>
+                		<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                			{{ user_form.email.errors }}
+                			{{ user_form.email|add_class:"form-control" }}
+                		</div>
+                	</div>
+                    
+                	<div class="form-group">
+                		<label for="regpassword" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">Password</label>
+                		<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                			{{ user_form.password.errors }}
+                			{{ user_form.password|add_class:"form-control" }}
+                		</div>
+                	</div>
+
+					<div class="form-group">
+						<div class="col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-10 col-sm-10 col-md-10 col-lg-10">
+					    	<button type="submit" class="btn btn-success" name="submit" value="Register">Register</button>
+					    </div>
+					</div>
+
+                </div>
+            </div>
+        </form>
+{% endblock bodycontent %}
+
