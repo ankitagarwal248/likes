@@ -23,9 +23,10 @@ from likes.utils.postutils import *
 
 def index(request):
     user = request.user
+    articles = Campaign.objects.filter(status=1)
 
     context = {
-        
+        'articles': articles
     }
     return render(request, 'likes/index.html', context)
 
@@ -83,10 +84,12 @@ def user_logout(request):
 @login_required(login_url='/login/')
 def advertiser(request):
     user = request.user
-    campaigns = user.campaign_set.all()
+    campaigns = user.campaign_set.all().order_by('-time')
+    adcategories = ["Sports", "Politics", "Entertainment"]
 
     context = {
-        'campaigns': campaigns
+        'campaigns': campaigns,
+        'adcategories': adcategories
     }
     return render(request, 'likes/advertiser.html', context)
     
@@ -97,12 +100,18 @@ def create_campaign(request):
     if request.method =='POST':
         link = request.POST['link'].strip()
         title =  request.POST['title'].strip()
+
+        image = request.FILES.get('image')
+        ext = image.name.split('.')[-1]
+        image.name = user.username + "_" + title +"_"+str(datetime.now()) +"." + ext
+
+        category = request.POST['category'].strip()
         description = request.POST['description'].strip()
         keywords = request.POST['keywords']
         bid = Decimal(request.POST['bid'].strip())
         budget = Decimal(request.POST['budget'].strip())
         status = 0
-        campaign = Campaign(user=user, link=link, title=title, description=description, keywords=keywords, bid=bid, budget=budget)    
+        campaign = Campaign(user=user, link=link, title=title, image=image, category=category, description=description, keywords=keywords, bid=bid, budget=budget)    
         campaign.save()
     return HttpResponseRedirect('/advertiser/')
 
@@ -155,15 +164,27 @@ def create_post(request):
     return HttpResponseRedirect('/publisher/')   
 
 
-
-
-
 @login_required(login_url='/login/')
 def delete_post(request, id):
-    pass
+    post = Post.objects.get(pk=id).delete()
+    return HttpResponseRedirect('/publisher/')
+
+@login_required(login_url="/login/")
+def share_article(request):
+
+    return HttpResponseRedirect('/')
 
 
 
 @login_required(login_url='/login/')
-def page(request):
-    pass        
+def page(request, username):
+    page_user = User.objects.get(username=username)
+    posts = page_user.post_set.all()
+
+    campaigns = Campaign.objects.filter(status=1)[:5]
+
+    context = {
+        'posts': posts,
+        'campaigns': campaigns
+    }
+    return render(request, 'likes/page.html', context) 

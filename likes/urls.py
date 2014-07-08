@@ -14,5 +14,6 @@ urlpatterns = patterns('',
         url(r'^publisher/$', views.publisher, name='publisher'),
         url(r'^publisher/create_post/$', views.create_post, name='create_post'),
         url(r'^publisher/delete_post/(?P<id>\d+)/$', views.delete_post, name='delete_post'),
-        url(r'^publisher/(?P<username>\d+)/$', views.page, name='page'),
+        url(r'^publisher/share_article/$', views.share_article, name='share_article'),
+        url(r'^(?P<username>\w+)/$', views.page, name='page'),
 )

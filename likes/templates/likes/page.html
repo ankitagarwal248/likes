@@ -1,0 +1,43 @@
+{% extends "likes/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+Likes- Publisher
+{% endblock %}
+
+{% block headingtitle %}
+
+{% endblock %}
+
+{% block bodycontent %}
+<div class="container">
+	</br>
+	<div class="row">
+		<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+			{% for post in posts %}
+				<div class="well row">
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<img src="{{ post.image | default:'http://placehold.it/350&text=spiral'}}" style="width:100%"/>
+					</div>
+	                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+						<h3 style="margin-top:0px"><a href="{{ post.url }}" target="_blank">{{ post.title }}</a></h3>
+						<p> {{ post.content | truncatewords:60}}</p>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}    
+		</div>
+		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+			<div>
+				{% for campaign in campaigns %}
+					<div class="well">
+						<p><a href="{{ campaign.link }}">{{ campaign.title }}</a></p>
+						<p><img class="img-responsive" src="{% if campaign.image %}{{ campaign.image.url }}{% else %}http://placehold.it/350&text=Likes{% endif %}" style="width:100%"/></p>
+						<p>{{ campaign.description }}</p>		
+					</div>
+				{% endfor %}
+			</div>
+		</div>	
+	</div>	
+</div>
+{% endblock bodycontent %}
